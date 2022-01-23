@@ -1,0 +1,57 @@
+<div class="hero">
+  <div class="hero-left">
+    <h2>Open Template Hub</h2>
+    <p>
+      {{ BRAND.bio }}
+    </p>
+    <app-button i18n-text="@@homePage.getStartedButton" text="Get Started" [routerLink]="URLS.signup"></app-button>
+  </div>
+</div>
+
+<div class="counters">
+  <a [href]="environmentCommon.website.github.url + '/' + environmentCommon.oth.social.github" class="counter-wrapper" rel="noopener" target="_blank">
+    <app-text-content-loader *ngIf="npmCounterLoading" [size]="'30'" class="loader"></app-text-content-loader>
+    <p class="counter" id="npmDownloadCounterElement"></p>
+    <p i18n="@@homePage.npmDownloads" class="description">Npm Downloads</p>
+  </a>
+  <a [href]="environmentCommon.website.github.url + '/' + environmentCommon.oth.social.github" class="counter-wrapper counter-alter" rel="noopener" target="_blank">
+    <p class="counter" id="productTypesCounterElement">0</p>
+    <p class="description" i18n="@@homePage.productTypes">Product Types</p>
+  </a>
+  <a [href]="environmentCommon.website.github.url + '/' + environmentCommon.oth.social.github" class="counter-wrapper" rel="noopener" target="_blank">
+    <div class="ratio">
+      <p class="counter" id="openSourceRatioCounterElement">0</p>
+      <span class="counter">%</span>
+    </div>
+    <p class="description" i18n="@@homePage.openSourceRatio">Open Source Ratio</p>
+  </a>
+</div>
+
+<!-- Explore -->
+<app-hero [contents]="exploreTitle"></app-hero>
+<ng-container *ngFor="let productLine of PRODUCT_LINES">
+  <app-hero [contents]="[{ text: productLine.name, level: 3 }]" [heroClass]="'no-padding'"></app-hero>
+  <div class="cards-wrapper">
+    <ng-container *ngFor="let product of productLine.products">
+      <app-presentation-card
+          [class]="product.color ? product.color : ''"
+          [footerText]=getPresentationCardFooter(product.openSource)
+          [href]="URLS.product + '/' + productLine.key + '/' + product.key"
+          [imgHeight]="150"
+          [secondaryText]="product.description"
+          [src]="product.logo"
+          [title]="product.name"
+          class="related-product">
+      </app-presentation-card>
+    </ng-container>
+  </div>
+</ng-container>
+
+<!-- System status -->
+<div class="form-page-layout">
+  <app-hero [contents]="statusTitle"></app-hero>
+  <app-status-card [overallSystemStatus]="overallSystemStatus"></app-status-card>
+</div>
+
+<!-- Cookies -->
+<app-cookies></app-cookies>

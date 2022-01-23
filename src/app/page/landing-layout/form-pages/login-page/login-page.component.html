@@ -1,0 +1,60 @@
+<div class="form-page-layout">
+  <!-- Welcome -->
+  <app-hero [contents]="appHeroContents"></app-hero>
+  <app-card [bodyTemplate]="bodyTemplate">
+    <!-- Body -->
+    <ng-template #bodyTemplate>
+      <div class="body">
+        <div class="flex-layout-row-wrap flex-center-center auth-social-login-wrapper">
+          <ng-container *ngFor="let website of websites.slice(0, 4)">
+            <app-brand-button (click)="socialLogin( website )" [icon]="website.cssClass">
+            </app-brand-button>
+          </ng-container>
+          <ng-container *ngIf="showMoreToggle">
+            <app-brand-button *ngFor="let website of websites.slice(4)" (click)="socialLogin( website )" [icon]="website.cssClass">
+            </app-brand-button>
+          </ng-container>
+        </div>
+        <a *ngIf="!showMoreToggle" (click)="showMoreToggle = !showMoreToggle" class="flex-layout-column flex-center-center theme-color-link">
+          <p i18n="@@signUp.more.text">More</p>
+          <i aria-hidden="true" class="fas fa-caret-down fa-lg fa-fw"></i>
+        </a>
+        <form (ngSubmit)="onSubmit()" [formGroup]="form">
+          <div class="section">
+            <div [class.error-input]="submitted && form.controls.username.invalid" class="input-with-icon">
+              <input formControlName="username" i18n-placeholder="@@loginPage.usernameOrEmail.placeholder" placeholder="Username or Email..." required type="text">
+              <i aria-hidden="true" class="fas fa-user fa-lg fa-fw"></i>
+            </div>
+            <div [class.error-input]="submitted && form.controls.password.invalid" class="input-with-icon">
+              <input formControlName="password" i18n-placeholder="@@loginPage.password.placeholder" placeholder="Password..." required type="password">
+              <i aria-hidden="true" class="fas fa-lock fa-lg fa-fw"></i>
+            </div>
+            <div class="input-checkbox">
+              <label class="input-checkbox-label">
+                <input formControlName="rememberMe" type="checkbox">
+                <span></span>
+                <p i18n="@@loginPage.rememberMe">Remember Me</p>
+              </label>
+            </div>
+          </div>
+          <div class="section-submit">
+            <app-button i18n-text="@@loginPage.loginButton" text="LOG IN"></app-button>
+            <p>
+              <ng-container i18n="@@loginPage.dontHaveAccount">Don't have an account?</ng-container>
+              <a i18n="@@loginPage.signUp" [routerLink]="URLS.signup" class="theme-color-link">
+                Sign Up
+              </a>
+            </p>
+            <p>
+              <a i18n="@@loginPage.forgetPassword" [routerLink]="URLS.forgetPassword" class="theme-color-link">
+                Forget password?
+              </a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </ng-template>
+  </app-card>
+</div>
+<app-cookies></app-cookies>
+
